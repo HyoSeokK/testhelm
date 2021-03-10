@@ -10,7 +10,7 @@ spec:
   subdomain: jts
   setHostnameAsFQDN: true
   containers:
-  - image: docker.jointree.co.kr/jointree/joinambari:v6.0
+  - image: docker.jointree.co.kr/jointree/joinambari:v7.0
     name: ambariserver
     command: ["/bin/bash","-c","ambari-server install-mpack --mpack=https://github.com/steven-matison/dfhz_hdp_mpack/raw/master/hdp-ambari-mpack-3.1.4.0.tar.gz --verbose"]
     env:
