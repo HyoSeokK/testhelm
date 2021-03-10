@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: base-jts
+  name: jts
 spec:
   selector:
     test: jts
