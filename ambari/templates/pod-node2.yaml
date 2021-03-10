@@ -3,10 +3,10 @@ kind: Pod
 metadata:
   name: join-nn2
   labels:
-    tests: jts
+    test: jts
 spec:
   hostname: nn2
-  subdomain: jts2
+  subdomain: jts
   setHostnameAsFQDN: true
   containers:
   - image: docker.jointree.co.kr/jointree/joinagent:v2.0
