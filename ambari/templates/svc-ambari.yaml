@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: jts2
+  name: jts
 spec:
   selector:
-    tests: jts
+    test: jts
   clusterIP: None
   clusterIPs:
     - None
