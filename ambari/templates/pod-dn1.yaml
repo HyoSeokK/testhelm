@@ -6,7 +6,7 @@ metadata:
     tests: jts
 spec:
   hostname: dn1
-  subdomain: jts2
+  subdomain: jts
   setHostnameAsFQDN: true
   containers:
   - image: docker.jointree.co.kr/jointree/joinagent:v2.0
