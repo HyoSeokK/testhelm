@@ -9,17 +9,11 @@ spec:
   subdomain: jts
   setHostnameAsFQDN: true
   containers:
-  - image: docker.jointree.co.kr/jointree/joinagent:v2.0
+  - image: docker.jointree.co.kr/jointree/joinagent:v4.0
     env:
     - name: JAVA_HOME
       value: "/usr/lib/jvm/java-1.8.0-openjdk/"
     name: dn2
-    envFrom:
-     - configMapRef:
-        name: server-cfg
-    volumeMounts:
-      - name: csv-conn
-        mountPath: /csv
     securityContext:
      privileged: true
     ports:
@@ -32,7 +26,4 @@ spec:
    - name: docker-registry-login
   nodeSelector:
    kubernetes.io/hostname: "103"
-  volumes:
-    - name: csv-conn
-      persistentVolumeClaim:
-        claimName: csvconn
+
