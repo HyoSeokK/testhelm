@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: test-ambari
+  name: base-test-ambari
   labels:
     app: ambari
 spec:
