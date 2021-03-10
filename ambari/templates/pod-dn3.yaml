@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: join-dn3
   labels:
-    tests: jts
+    test: jts
 spec:
   hostname: dn3
   subdomain: jts
