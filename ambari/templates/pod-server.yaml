@@ -28,14 +28,6 @@ spec:
       containerPort: 22
     - name: ambariport
       containerPort: 8080
-  - image: postgres:12
-    name: post
-    envFrom:
-     - configMapRef:
-        name: ampost
-    ports:
-    - containerPort: 5432
-      name: postdb
   restartPolicy: Always
   imagePullSecrets:
    - name: docker-registry-login
