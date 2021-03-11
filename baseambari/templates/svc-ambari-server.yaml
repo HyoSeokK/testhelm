@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   name: base-test-ambari
   labels:
-    app: ambari
+    app: testambari
 spec:
   ports:
     - name: ssh

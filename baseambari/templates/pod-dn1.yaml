@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: base-join-dn1
+  name: test-join-dn1
   labels:
-    test: jts
+    test: testjts
 spec:
   hostname: dn1
   subdomain: jts
   setHostnameAsFQDN: true
   containers:
-  - image: docker.jointree.co.kr/jointree/joinagent:v4.0
+  - image: docker.jointree.co.kr/jointree/basedn1:v0.5
     name: dn1
     env:
     - name: JAVA_HOME

@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: base-join-dn2
+  name: test-join-dn2
   labels:
-    test: jts
+    test: testjts
 spec:
   hostname: dn2
   subdomain: jts
   setHostnameAsFQDN: true
   containers:
-  - image: docker.jointree.co.kr/jointree/joinagent:v4.0
+  - image: docker.jointree.co.kr/jointree/basedn2:v0.5
     env:
     - name: JAVA_HOME
       value: "/usr/lib/jvm/java-1.8.0-openjdk/"
@@ -26,4 +26,3 @@ spec:
    - name: docker-registry-login
   nodeSelector:
    kubernetes.io/hostname: "103"
-

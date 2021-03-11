@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: base-join-nn1
+  name: test-join-nn1
   labels:
-    app: ambari
-    test: jts
+    app: testambari
+    test: testjts
 spec:
   hostname: nn1
   subdomain: jts

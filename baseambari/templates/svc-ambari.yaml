@@ -4,7 +4,7 @@ metadata:
   name: jts
 spec:
   selector:
-    test: jts
+    test: testjts
   clusterIP: None
   clusterIPs:
     - None
