@@ -1,9 +1,9 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: base-test-ambari
+  name: base-svc-ambari
   labels:
-    app: testambari
+    app: ambari
 spec:
   ports:
     - name: ssh
