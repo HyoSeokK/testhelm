@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: jts
+spec:
+  selector:
+    test: jts
+  clusterIP: None
+  clusterIPs:
+    - None
+  type: ClusterIP
+
+

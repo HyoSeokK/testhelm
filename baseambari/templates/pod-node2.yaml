@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: base-join-nn2
+  labels:
+    test: jts
+spec:
+  hostname: nn2
+  subdomain: jts
+  setHostnameAsFQDN: true
+  containers:
+  - image: docker.jointree.co.kr/jointree/joinagent:v4.0
+    name: nn2
+    env:
+    - name: JAVA_HOME
+      value: "/usr/lib/jvm/java-1.8.0-openjdk/"
+    envFrom:
+     - configMapRef:
+        name: server-cfg
+    volumeMounts:
+      - name: csv-conn
+        mountPath: /csv
+    securityContext:
+     privileged: true
+    ports:
+    - name: sshd
+      containerPort: 22
+    - name: ambariport
+      containerPort: 8080
+  restartPolicy: Always
+  imagePullSecrets:
+   - name: docker-registry-login
+  nodeSelector:
+   kubernetes.io/hostname: "106"
+  volumes:
+    - name: csv-conn
+      persistentVolumeClaim:
+        claimName: csvconn
