@@ -29,7 +29,10 @@ spec:
     - name: port4
       protocol: TCP
       port: 8888
-      targetPort: 8888 
+      targetPort: 8888
+    - name: port5
+      port: 9995
+      targetPort: 9995
   selector:
     test: jts
     app: ambari
