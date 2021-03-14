@@ -18,11 +18,11 @@ spec:
       protocol: TCP
       port: 8187
       targetPort: 8187
-    - name: ambarisvc
+    - name: ambarisvc1
       protocol: TCP
       port: 8441
       targetPort: 8441
-    - name: ambarisvc
+    - name: ambarisvc2
       protocol: TCP
       port: 8440
       targetPort: 8440
