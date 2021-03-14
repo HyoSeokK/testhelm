@@ -18,18 +18,30 @@ spec:
       protocol: TCP
       port: 8187
       targetPort: 8187
-    - name: port2
+    - name: ambarisvc
       protocol: TCP
       port: 8441
       targetPort: 8441
-    - name: port3
+    - name: ambarisvc
       protocol: TCP
       port: 8440
       targetPort: 8440
-    - name: port4
+    - name: hue
       protocol: TCP
       port: 8888
       targetPort: 8888 
+    - name: zeplin
+      protocol: TCP
+      port: 9995
+      targetPort: 9995 
+    - name: atlas
+      protocol: TCP
+      port: 21000
+      targetPort: 21000 
+    - name: storm
+      protocol: TCP
+      port: 8744
+      targetPort: 8744 
   selector:
     type: ambari
     app: server
