@@ -26,7 +26,7 @@ spec:
       protocol: TCP
       port: 8440
       targetPort: 8440
-    - name: port4
+    - name: hue
       protocol: TCP
       port: 8888
       targetPort: 8888
@@ -34,6 +34,6 @@ spec:
       port: 9995
       targetPort: 9995
   selector:
-    test: jts
-    app: ambari
+    type: ambari
+    app: server
   type: NodePort

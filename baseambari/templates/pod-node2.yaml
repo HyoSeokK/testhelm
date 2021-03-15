@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: base-join-nn2
   labels:
-    test: jts
+    type: ambari
 spec:
   hostname: nn2
   subdomain: jts

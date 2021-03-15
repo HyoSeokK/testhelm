@@ -4,7 +4,7 @@ metadata:
   name: jts
 spec:
   selector:
-    test: jts
+    type: ambari
   clusterIP: None
   clusterIPs:
     - None

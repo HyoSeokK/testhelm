@@ -3,8 +3,8 @@ kind: Pod
 metadata:
   name: base-join-nn1
   labels:
-    app: ambari
-    test: jts
+    type: ambari
+    app: server
 spec:
   hostname: nn1
   subdomain: jts

@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: base-join-dn1
   labels:
-    test: jts
+    type: ambari
 spec:
   hostname: dn1
   subdomain: jts
