@@ -34,10 +34,10 @@ spec:
       protocol: TCP
       port: 9995
       targetPort: 9995 
-    - name: atlas
+    - name: superset
       protocol: TCP
-      port: 21000
-      targetPort: 21000 
+      port: 9088 
+      targetPort: 9088  
     - name: storm
       protocol: TCP
       port: 8744
