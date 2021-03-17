@@ -9,7 +9,7 @@ spec:
   subdomain: jts
   setHostnameAsFQDN: true
   containers:
-  - image: docker.jointree.co.kr/jointree/joinnamenode2full:v2.0
+  - image: docker.jointree.co.kr/jointree/joinnamenode2full:v4.0
     name: nn2
     env:
     - name: JAVA_HOME
