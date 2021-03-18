@@ -10,7 +10,7 @@ spec:
   subdomain: jts
   setHostnameAsFQDN: true
   containers:
-  - image: docker.jointree.co.kr/jointree/joinnamenode1full:v4.0
+  - image: docker.jointree.co.kr/jointree/joinnamenode1full:v5.0
     name: ambariserver
     env:
     - name: JAVA_HOME
