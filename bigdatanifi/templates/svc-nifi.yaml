@@ -1,0 +1,17 @@
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: nifi-service
+  labels:
+    app: nifi-service
+spec:
+  ports:
+    - name: nifi
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 31002
+  selector:
+    app: nifi
+  type: NodePort

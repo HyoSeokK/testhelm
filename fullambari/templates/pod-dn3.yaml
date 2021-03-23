@@ -25,5 +25,5 @@ spec:
   imagePullSecrets:
    - name: docker-registry-login
   nodeSelector:
-   kubernetes.io/hostname: "104"
+   kubernetes.io/hostname: "datanode3"
 

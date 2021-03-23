@@ -6,42 +6,15 @@ metadata:
     app: ambari
 spec:
   ports:
-    - name: ssh
-      protocol: TCP
-      port: 22
-      targetPort: 22
     - name: service
       protocol: TCP
       port: 8080
       targetPort: 8080
-    - name: port1
-      protocol: TCP
-      port: 8187
-      targetPort: 8187
-    - name: ambarisvc1
-      protocol: TCP
-      port: 8441
-      targetPort: 8441
-    - name: ambarisvc2
-      protocol: TCP
-      port: 8440
-      targetPort: 8440
+      nodePort: 30101
     - name: hue
       protocol: TCP
       port: 8888
-      targetPort: 8888 
-    - name: zeplin
-      protocol: TCP
-      port: 9995
-      targetPort: 9995 
-    - name: superset
-      protocol: TCP
-      port: 9088 
-      targetPort: 9088  
-    - name: storm
-      protocol: TCP
-      port: 8744
-      targetPort: 8744 
+      targetPort: 30102
   selector:
     type: ambari
     app: server

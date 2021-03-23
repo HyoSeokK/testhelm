@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: dnkrp
+spec:
+  selector:
+    app: krp
+  type: NodePort
+  ports:
+  - name: port1
+    port: 8082
+    targetPort: 8082
+    nodePort: 31001

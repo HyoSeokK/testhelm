@@ -1,0 +1,26 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: joinnifi
+  labels:
+    app: nifi
+    test: jts
+spec:
+  containers:
+    - name: nifi
+      image: 'docker.jointree.co.kr/jointree/joinnifi:v1.2'
+      command:
+        - /bin/bash
+        - '-c'
+        - >-
+          source /root/.bash_profile && /root/nifi-1.12.0/bin/nifi.sh start &&
+          sleep infinity
+      ports:
+        - containerPort: 8080
+          protocol: TCP
+      imagePullPolicy: IfNotPresent
+      securityContext:
+        privileged: true
+  restartPolicy: Always
+  imagePullSecrets:
+    - name: docker-registry-login

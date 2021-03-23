@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp-krp
+  labels: 
+   app: dp-krp
+   type: ambari
+spec:
+  selector:
+    matchLabels:
+      app: krp
+      typr: ambari
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: krp
+        typr: ambari
+    spec:
+      containers:
+      - name: krp
+        image: docker.jointree.co.kr/jointree/joinkrp:v1.0
+        command: ["/bin/bash","-c","/tmp/confluent/bin/kafka-rest-start /krp/kafka-rest.properties"]
+        securityContext:
+         privileged: true
+        volumeMounts:
+        - name: krpconfig
+          mountPath: /krp
+        ports:
+        - containerPort: 8082
+        resources:
+          limits:
+            cpu: 200m
+          requests:
+            cpu: 100m
+      volumes:
+      - name: krpconfig
+        hostPath:
+         path: /krp
+         type: DirectoryOrCreate
+      restartPolicy: Always
+      nodeSelector:
+       kubernetes.io/hostname: "gather1"
+      imagePullSecrets:
+       - name: docker-registry-login
+       
