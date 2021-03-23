@@ -4,7 +4,7 @@ metadata:
   name: joinnifi
   labels:
     app: nifi
-    test: jts
+    type: ambari
 spec:
   containers:
     - name: nifi
@@ -24,3 +24,5 @@ spec:
   restartPolicy: Always
   imagePullSecrets:
     - name: docker-registry-login
+  nodeSelector:
+   kubernetes.io/hostname: "gather1"
