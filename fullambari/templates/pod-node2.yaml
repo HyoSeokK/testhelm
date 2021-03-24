@@ -35,4 +35,4 @@ spec:
   volumes:
     - name: csv-conn
       persistentVolumeClaim:
-        claimName: csvconn
+        claimName: pvc-csv-claim
