@@ -7,7 +7,7 @@ service:
   ssl: 443
 pv:
  name: gitlabhelm
- log: /svc/gitlab/logs 
- config: /svc/gitlab/config
- data: /svc/gitlab/data
+ log: /pv/gitlab/logs 
+ config: /pv/gitlab/config
+ data: /pv/gitlab/data
 

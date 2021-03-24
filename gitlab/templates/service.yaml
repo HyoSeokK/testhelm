@@ -10,12 +10,11 @@ spec:
  - name: web
    targetPort: {{ .Values.service.ports.web }}
    port: {{ .Values.service.ports.web }}
- - name: ssh
-   targetPort: {{ .Values.service.ports.ssh }}
-   port: {{ .Values.service.ports.ssh }}
+   nodePort: 31201
  - name: ssl
    targetPort: {{ .Values.service.ports.ssl }}
    port: {{ .Values.service.ports.ssl }}
+   nodePort: 31299
  selector:
   app: gitlabhelm
   

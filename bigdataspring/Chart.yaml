@@ -1,5 +1,5 @@
 apiversion: v1
 description: AmbariDescription
-name: bigdatanifi
+name: bigdataspring
 type: application
 version: 1.0.0

@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-jupyter
+  labels:
+    app: jupyter
+spec:
+  containers:
+  - image: docker.jointree.co.kr/jointree/jupyter-gpu:v1
+    command: ["/bin/sh","-c","mkdir -p /notebook/csv && export LD_LIBRARY_PATH=/usr/local/cuda/lib64 && pip install jupyter_contrib_nbextensions && pip install jupyter_nbextensions_configurator && jupyter contrib nbextension install --user && jupyter notebook --notebook-dir=/notebook --ip='*' --port=8888 --no-browser --allow-root --NotebookApp.token= "]
+    name: jupyter
+    ports:
+    - containerPort: 8888
+    resources:
+     request:
+      nvidia.com/gpu: 1 # requesting 2 GPUs   
+    volumeMounts:
+      - name: jupyter-vol
+        mountPath: ~/kagglejupyter1
+      - name: jupyter-data
+        mountPath: /notebook
+      - name: jupyter-csv
+        mountPath: /notebook/csv
+  volumes:
+    - name: jupyter-vol
+      persistentVolumeClaim:
+        claimName: pvc-jupyter-volume-claim
+    - name: jupyter-data
+      persistentVolumeClaim:
+        claimName: pvc-jupyter-data-claim
+    - name: jupyter-csv
+      persistentVolumeClaim:
+        claimName: pvc-jupyter-csv-claim
+  restartPolicy: Always
+  nodeSelector:
+   kubernetes.io/hostname: "analysis1" 
+  imagePullSecrets:
+   - name: docker-registry-login

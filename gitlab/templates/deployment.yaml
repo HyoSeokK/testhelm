@@ -36,6 +36,8 @@ spec:
    imagePullSecrets:
    - name: docker-registry-login
    restartPolicy: Always
+   nodeSelector:
+    kubernetes.io/hostname: "gather1" 
    volumes:
    - name: config
      persistentVolumeClaim:

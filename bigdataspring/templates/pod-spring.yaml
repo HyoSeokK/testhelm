@@ -1,0 +1,31 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: spring
+  labels:
+    app: spring
+    type: ambari
+spec:
+  volumes:
+    - name: apps
+      hostPath:
+        path: /tomcat/webapps/
+        type: DirectoryOrCreate
+  containers:
+    - name: repo
+      image: 'tomcat:8.5-jdk8-corretto'
+      resources: {}
+      volumeMounts:
+        - name: apps
+          mountPath: /usr/local/tomcat/webapps/
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      imagePullPolicy: IfNotPresent
+      securityContext:
+        privileged: true
+  restartPolicy: Always
+  nodeSelector:
+   kubernetes.io/hostname: "gather1"
+
+
+

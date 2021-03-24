@@ -1,0 +1,18 @@
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: svc-spring
+  labels:
+    app: svc-spring
+spec:
+  ports:
+    - name: spring
+      protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 31004
+  selector:
+    app: spring
+    type: ambari
+  type: NodePort
