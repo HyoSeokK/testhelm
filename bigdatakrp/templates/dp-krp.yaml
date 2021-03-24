@@ -9,13 +9,13 @@ spec:
   selector:
     matchLabels:
       app: krp
-      typr: ambari
+      type: ambari
   replicas: 1
   template:
     metadata:
       labels:
         app: krp
-        typr: ambari
+        type: ambari
     spec:
       containers:
       - name: krp
