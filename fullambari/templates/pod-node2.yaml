@@ -10,6 +10,7 @@ spec:
   setHostnameAsFQDN: true
   containers:
   - image: docker.jointree.co.kr/jointree/joinnamenode2full:v7.0
+    command: ["/bin/bash","-c","ambari-agent start"]
     name: nn2
     env:
     - name: JAVA_HOME
