@@ -30,7 +30,7 @@ spec:
         claimName: pvc-jupyter-data-claim
     - name: jupyter-csv
       persistentVolumeClaim:
-        claimName: pvc-jupyter-csv-claim
+        claimName: pvc-csv-claim
   restartPolicy: Always
   nodeSelector:
    kubernetes.io/hostname: "analysis1" 

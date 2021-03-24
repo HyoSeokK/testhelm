@@ -1,7 +1,7 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv-jupyter-csv
+  name: pv-csv
   labels:
     type: local
 spec:
@@ -16,7 +16,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-jupyter-csv-claim
+  name: pvc-csv-claim
 spec:
   accessModes:
     - ReadWriteMany
