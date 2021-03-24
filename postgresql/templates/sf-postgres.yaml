@@ -22,7 +22,7 @@ spec:
         image: postgres:12
         envFrom:
         - configMapRef:
-            name: postgres-configuration
+            name: cf-postgres
         ports:
         - containerPort: 5432
           name: postgresdb
