@@ -30,11 +30,11 @@ spec:
       containerPort: 8080
   restartPolicy: Always
   imagePullSecrets:
-   - name: docker-registry-login
+   - name: harbor-admin-login
   volumes:
     - name: csv-conn
       persistentVolumeClaim:
-        claimName: csvconn
+        claimName: pvc-csv-claim
   nodeSelector:
    kubernetes.io/hostname: "namenode1"
 

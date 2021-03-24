@@ -23,7 +23,7 @@ spec:
       containerPort: 8080
   restartPolicy: Always
   imagePullSecrets:
-   - name: docker-registry-login
+   - name: harbor-admin-login
   nodeSelector:
    kubernetes.io/hostname: "datanode3"
 
