@@ -8,7 +8,7 @@ spec:
   capacity:
     storage: 50Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   hostPath:
     path: {{ .Values.pv.config }}
