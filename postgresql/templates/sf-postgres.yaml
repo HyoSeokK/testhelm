@@ -10,10 +10,12 @@ spec:
   selector:
     matchLabels:
       app: postgres
+      type: ambari
   template:
     metadata:
       labels:
         app: postgres
+        type: ambari
     spec:
       containers:
       - name: postgres
