@@ -11,7 +11,7 @@ spec:
   setHostnameAsFQDN: true
   containers:
   - image: docker.jointree.co.kr/jointree/joinnamenode1full:v7.0
-    command: ["/bin/bash","-c","ambari-agent start && systemctl start postgresql && ambari-server start"]
+    command: ["/bin/bash","-c","ambari-agent start && sudo systemctl start postgresql && ambari-server start"]
     name: ambariserver
     env:
     - name: JAVA_HOME
