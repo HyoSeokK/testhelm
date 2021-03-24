@@ -9,7 +9,7 @@ spec:
   volumes:
     - name: apps
       hostPath:
-        path: /tomcat/webapps/
+        path: /pv/tomcat/webapps/
         type: DirectoryOrCreate
   containers:
     - name: repo
