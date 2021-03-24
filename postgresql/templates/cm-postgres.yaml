@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cf-postgres
+  labels:
+    app: postgres
+data:
+  POSTGRES_DB: gather
+  POSTGRES_USER: ambari
+  POSTGRES_PASSWORD: ambari
