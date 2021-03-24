@@ -10,7 +10,7 @@ spec:
   setHostnameAsFQDN: true
   containers:
   - image: docker.jointree.co.kr/jointree/joindatanode3full:v7.0
-    command: ["/bin/bash","-c","ambari-agent start"]
+    command: ["/bin/bash","-c","ambari-agent start && sleep infinity"]
     name: dn3
     env:
     - name: JAVA_HOME
