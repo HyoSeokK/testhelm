@@ -14,7 +14,8 @@ spec:
     - name: hue
       protocol: TCP
       port: 8888
-      targetPort: 30102
+      targetPort: 8888
+      nodePort: 30102
   selector:
     type: ambari
     app: server
