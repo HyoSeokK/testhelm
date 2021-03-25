@@ -124,6 +124,8 @@ spec:
           resources: {{- toYaml .Values.pinnipedProxy.resources | nindent 12 }}
           {{- end }}
         {{- end }}
+      nodeSelector:
+       kubernetes.io/hostname: "gather1"
       volumes:
         - name: vhost
           configMap:

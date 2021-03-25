@@ -528,6 +528,8 @@ spec:
           resources: {{- toYaml .Values.metrics.resources | nindent 12 }}
           {{- end }}
 {{- end }}
+      nodeSelector:
+       kubernetes.io/hostname: "gather1" 
       volumes:
         {{- if or (.Files.Glob "files/postgresql.conf") (.Files.Glob "files/pg_hba.conf") .Values.postgresqlConfiguration .Values.pgHbaConfiguration .Values.configurationConfigMap}}
         - name: postgresql-config

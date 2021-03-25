@@ -343,6 +343,8 @@ spec:
 {{- if .Values.readReplicas.sidecars }}
 {{- include "common.tplvalues.render" ( dict "value" .Values.readReplicas.sidecars "context" $ ) | nindent 8 }}
 {{- end }}
+      nodeSelector:
+       kubernetes.io/hostname: "gather1" 
       volumes:
         {{- if .Values.usePasswordFile }}
         - name: postgresql-password
