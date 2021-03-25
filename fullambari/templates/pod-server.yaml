@@ -31,6 +31,6 @@ spec:
   volumes:
     - name: csv-conn
       persistentVolumeClaim:
-        claimName: pvc-csv-claim
+        claimName: csv-claim
   nodeSelector:
    kubernetes.io/hostname: "namenode1"
