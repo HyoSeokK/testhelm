@@ -19,6 +19,13 @@ spec:
      image: gitlab/gitlab-ce
      securityContext:
       privileged: true
+     volumeMounts:
+     - name: config
+       mountPath: /etc/gitlab
+     - name: data
+       mountPath: /var/opt/gitlab
+     - name: logs
+       mountPath: /var/log/gitlab
      ports:
      - name: web
        containerPort: 80
@@ -31,5 +38,14 @@ spec:
    restartPolicy: Always
    nodeSelector:
     kubernetes.io/hostname: "gather1" 
-
+   volumes:
+   - name: config
+     persistentVolumeClaim:
+      claimName: "{{ .Values.pv.name }}-pvc-config"
+   - name: data
+     persistentVolumeClaim:
+      claimName: "{{ .Values.pv.name }}-pvc-data"
+   - name: logs
+     persistentVolumeClaim:
+      claimName: "{{ .Values.pv.name }}-pvc-log"
    
