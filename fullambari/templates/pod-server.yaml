@@ -18,7 +18,7 @@ spec:
       value: "/usr/lib/jvm/java-1.8.0-openjdk"
     volumeMounts:
       - name: csv-conn
-        mountPath: /csv
+        mountPath: /tmp
     securityContext:
      privileged: true
     ports:
