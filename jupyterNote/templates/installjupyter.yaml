@@ -1,0 +1,109 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: svc-jupyter
+  labels:
+    app: svc-jupyter
+spec:
+  ports:
+    - protocol: TCP
+      port: 8888
+      targetPort: 8888
+      nodePort: 32003
+  selector:
+    app: jupyter
+  type: NodePort
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-jupyter-volume
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 25Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/pv/jupyter/vol" 
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-jupyter-volume-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi 
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-jupyter-data
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 25Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/pv/jupyter/data" 
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-jupyter-data-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi 
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-jupyter
+  labels:
+    app: jupyter
+spec:
+  containers:
+  - image: docker.jointree.co.kr/jointree/jupyter-gpu:v1
+    command: ["/bin/sh","-c","mkdir -p /notebook/csv && export LD_LIBRARY_PATH=/usr/local/cuda/lib64 && pip install jupyter_contrib_nbextensions && pip install jupyter_nbextensions_configurator && jupyter contrib nbextension install --user && jupyter notebook --notebook-dir=/notebook --ip='*' --port=8888 --no-browser --allow-root --NotebookApp.token= "]
+    name: jupyter
+    ports:
+    - containerPort: 8888
+    resources:
+     request:
+      nvidia.com/gpu: 1 # requesting 2 GPUs  
+     limits:
+      memory: "60Gi"
+    volumeMounts:
+      - name: jupyter-vol
+        mountPath: ~/kagglejupyter1
+      - name: jupyter-data
+        mountPath: /notebook
+      - name: jupyter-csv
+        mountPath: /notebook/csv
+  volumes:
+    - name: jupyter-vol
+      persistentVolumeClaim:
+        claimName: pvc-jupyter-volume-claim
+    - name: jupyter-data
+      persistentVolumeClaim:
+        claimName: pvc-jupyter-data-claim
+    - name: jupyter-csv
+      persistentVolumeClaim:
+        claimName: csv-claim
+  restartPolicy: Always
+  nodeSelector:
+   kubernetes.io/hostname: "analysis1" 
+  imagePullSecrets:
+   - name: harbor-admin-login

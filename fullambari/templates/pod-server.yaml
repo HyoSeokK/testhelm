@@ -35,3 +35,23 @@ spec:
   nodeSelector:
    kubernetes.io/hostname: "namenode1"
 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu
+  labels:
+    app: ubuntu
+spec:
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    command: ["/bin/bash","-c","mkdir -p /csv  && sleep infinity"]
+    volumeMounts:
+    - name: csv-conn
+      mountPath: /csv
+  volumes:
+  - name: csv-conn
+    persistentVolumeClaim:
+     claimName: csv-claim
+  restartPolicy: Always

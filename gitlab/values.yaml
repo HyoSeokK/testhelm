@@ -1,6 +1,6 @@
 service:
  name: gitlabsvc
- type: LoadBalancer
+ type: NodePort
  ports:
   web: 80
   ssh: 22

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu2
+  labels:
+    app: ubuntu
+spec:
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    securityContext:
+     privileged: true
+  restartPolicy: Always
+  nodeSelector:
+    kubernetes.io/hostname: "datanode3"
