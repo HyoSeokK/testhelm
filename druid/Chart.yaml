@@ -5,7 +5,6 @@ name: druid
 version: 0.2.18
 home: https://druid.apache.org/
 icon: https://druid.apache.org/img/favicon.png
-deprecated: true
 sources:
   - https://github.com/apache/druid
 keywords:

@@ -1,5 +1,5 @@
 dependencies:
-- name: zookeeper
+- name: my-flask
   version: 2.1.6
   repository: https://docker.jointree.co.kr/chartrepo/jointree
   condition: zookeeper.enabled
