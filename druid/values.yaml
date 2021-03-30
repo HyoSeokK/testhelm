@@ -1,401 +1,265 @@
 # Default values for druid.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
 
-image:
-  repository: apache/druid
-  tag: 0.19.0
-  pullPolicy: IfNotPresent
-  pullSecrets: []
+#TODO remove quickstart stuff
+iapVersion: "imply-1.3.1"
+debug: "True"
 
-configMap:
-  ## If false, configMap will not be applied
-  ##
-  enabled: true
+postgresqlName: "postgresql"
 
-## Define the key value pairs in the configmap
-configVars:
-  ## DRUID env vars. ref: https://github.com/apache/druid/blob/master/distribution/docker/druid.sh#L29
-  # DRUID_LOG_LEVEL: "warn"
-  # DRUID_LOG4J: <?xml version="1.0" encoding="UTF-8" ?><Configuration status="WARN"><Appenders><Console name="Console" target="SYSTEM_OUT"><PatternLayout pattern="%d{ISO8601} %p [%t] %c - %m%n"/></Console></Appenders><Loggers><Root level="info"><AppenderRef ref="Console"/></Root><Logger name="org.apache.druid.jetty.RequestLog" additivity="false" level="DEBUG"><AppenderRef ref="Console"/></Logger></Loggers></Configuration>
-  DRUID_USE_CONTAINER_IP: "true"
+druidSegmentDeepStorage: "druid-deep-storage"
+druidSegmentCache: "druid-deep-segment-cache"
 
-  ## Druid Common Configurations. ref: https://druid.apache.org/docs/latest/configuration/index.html#common-configurations
-  druid_extensions_loadList: '["druid-histogram", "druid-datasketches", "druid-lookups-cached-global", "postgresql-metadata-storage","druid-kinesis-indexing-service","druid-s3-extensions","druid-azure-extensions","druid-google-extensions","druid-hdfs-storage","druid-kafka-indexing-service"]'
-  druid_metadata_storage_type: postgresql
-  druid_metadata_storage_connector_connectURI: jdbc:postgresql://postgres:5432/druid
-  druid_metadata_storage_connector_user: druid
-  druid_metadata_storage_connector_password: druid
-  druid_storage_type: local
-  druid_indexer_logs_type: file
-  druid_indexer_logs_directory: /opt/data/indexing-logs
-
-  ## Druid Emitting Metrics. ref: https://druid.apache.org/docs/latest/configuration/index.html#emitting-metrics
-  druid_emitter: noop
-  druid_emitter_logging_logLevel: debug
-  druid_emitter_http_recipientBaseUrl: http://druid_exporter_url:druid_exporter_port/druid
-
-gCloudStorage:
-  enabled: false
-  secretName: google-cloud-key
-
-broker:
-  ## If false, broker will not be installed
-  ##
-  enabled: true
-  name: broker
-  replicaCount: 1
-  port: 8082
-  serviceType: ClusterIP
-
+volumes:
+  druidSegmentDeepStorage:
+    Name: druid-deep-storage
+    hostPath: /druid-segments/
+    storageClassName: standard
+    accessModes: ReadWriteMany
+    capacity: 2Gi
+  SegmentCache:
+    Name: druid-deep-segment-cache
+    storageClassName: standard
+    hostPath: /druid-segment-cache/
+    storageClassName: standard
+    accessModes: ReadWriteMany
+    capacity: 3Gi
+  mysql:
+    Name: mysql-persistent-storage
+    hostPath: /druid-mysql/
+    storageClassName: standard
+    accessModes: ReadWriteMany
+    capacity: 1Gi    
   config:
-    DRUID_XMX: 512m
-    DRUID_XMS: 512m
-    DRUID_MAXDIRECTMEMORYSIZE: 400m
-    druid_processing_buffer_sizeBytes: '50000000'
-    druid_processing_numMergeBuffers: 2
-    druid_processing_numThreads: 1
-    # druid_monitoring_monitors: '["org.apache.druid.client.cache.CacheMonitor", "org.apache.druid.server.metrics.QueryCountStatsMonitor"]'
+    Name: config-volume
+    hostPath: /u00/tc_pv/druid-config/
+    storageClassName: standard
+    accessModes: ReadWriteMany
+    capacity: 0.5Gi
+  zookeeper:
+    Name: data
+    hostPath: /zookeeper-data/
+    storageClassName: standard
+    accessModes: ReadWriteOnce
+    capacity: 5Gi
+  zookeeper1:
+    Name: data1
+    hostPath: /zookeeper-data1/
+    storageClassName: standard
+    accessModes: ReadWriteOnce
+    capacity: 5Gi
+  zookeeper2:
+    Name: data2
+    hostPath: /zookeeper-data2/
+    storageClassName: standard
+    accessModes: ReadWriteOnce
+    capacity: 5Gi
 
-  ingress:
-    enabled: false
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    path: /
-    hosts:
-      - chart-example.local
-    tls: []
-    #  - secretName: chart-example-tls
-    #    hosts:
-    #      - chart-example.local
-
-  resources: {}
-    # limits:
-    #   cpu: 1
-    #   memory: 1Gi
-    # requests:
-    #   cpu: 250m
-    #   memory: 512Mi
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
-
-  podAnnotations: {}
-
-coordinator:
-  ## If false, coordinator will not be installed
-  ##
-  enabled: true
-  name: coordinator
-  replicaCount: 1
-  port: 8081
-  serviceType: ClusterIP
-
+volumeClaims:
+  druidSegmentDeepStorage:
+    ClaimName: druid-deep-storage
+    accessModes: ReadWriteMany
+    storage: 2Gi
+  SegmentCache:
+    ClaimName: druid-deep-segment-cache
+    storageClassName: standard
+    accessModes: ReadWriteMany
+    storage: 3Gi
+  mysql:
+    ClaimName: mysql-persistent-storage
+    storageClassName: standard
+    accessModes: ReadWriteMany
+    storage: 1Gi
   config:
-    DRUID_XMX: 256m
-    DRUID_XMS: 256m
-    # druid_monitoring_monitors: '["org.apache.druid.server.metrics.TaskCountStatsMonitor"]'
+    ClaimName: config-volume
+    storageClassName: standard
+    accessModes: ReadWriteMany
+    storage: 0.5Gi
 
-  ingress:
-    enabled: false
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    path: /
-    hosts:
-      - chart-example.local
-    tls: []
-    #  - secretName: chart-example-tls
-    #    hosts:
-    #      - chart-example.local
+secrets:
+  name: druid
+  key:
+    # Generate from the cryptography package
+    # FERNET_KEY=$(python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())")
+    user: user
+    password: password
+    # In the format: 
+    # postgresql+psycopg2://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB
+    connectURI: connectURI
 
-  resources: {}
-    # limits:
-    #   cpu: 500m
-    #   memory: 1Gi
-    # requests:
-    #   cpu: 250m
-    #   memory: 512Mi
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
-
-  podAnnotations: {}
-
-overlord:
-  ## If true, the separate overlord will be installed
-  ##
-  enabled: false
-  name: overlord
-  replicaCount: 1
-  port: 8081
-  serviceType: ClusterIP
-
-  javaOpts: "-Xms1G -Xmx1G"
-
-  ingress:
-    enabled: false
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    path: /
-    hosts:
-      - chart-example.local
-    tls: []
-    #  - secretName: chart-example-tls
-    #    hosts:
-    #      - chart-example.local
-
-  resources: {}
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
-
-  podAnnotations: {}
-
-historical:
-  ## If false, historical will not be installed
-  ##
-  enabled: true
-  name: historical
-  replicaCount: 1
-  port: 8083
-  serviceType: ClusterIP
-
-  config:
-    DRUID_XMX: 512m
-    DRUID_XMS: 512m
-    DRUID_MAXDIRECTMEMORYSIZE: 400m
-    druid_processing_buffer_sizeBytes: '50000000'
-    druid_processing_numMergeBuffers: 2
-    druid_processing_numThreads: 1
-    # druid_monitoring_monitors: '["org.apache.druid.client.cache.CacheMonitor", "org.apache.druid.server.metrics.HistoricalMetricsMonitor", "org.apache.druid.server.metrics.QueryCountStatsMonitor"]'
-    # druid_segmentCache_locations: '[{"path":"/var/druid/segment-cache","maxSize":300000000000}]'
-
-  ingress:
-    enabled: false
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    path: /
-    hosts:
-      - chart-example.local
-    tls: []
-    #  - secretName: chart-example-tls
-    #    hosts:
-    #      - chart-example.local
-
-  persistence:
-    enabled: true
-    accessMode: ReadWriteOnce
-    size: "4Gi"
-    # storageClass: "ssd"
-
-  antiAffinity: "soft"
-
-  nodeAffinity: {}
-
-  nodeSelector: {}
-
-  securityContext:
-    fsGroup: 1000
-
-  tolerations: []
-
-  resources: {}
-    # limits:
-    #   cpu: 2
-    #   memory: 2Gi
-    # requests:
-    #   cpu: 500m
-    #   memory: 512Mi
-
-  ## (dict) If specified, apply these annotations to each master Pod
-  podAnnotations: {}
-
-  podDisruptionBudget:
-    enabled: false
-    # minAvailable: 2
-    maxUnavailable: 1
-
-  updateStrategy:
-    type: RollingUpdate
-
-middleManager:
-  ## If false, middleManager will not be installed
-  ##
-  enabled: true
-  name: middle-manager
-  replicaCount: 1
-  port: 8091
-  serviceType: ClusterIP
-
-  config:
-    DRUID_XMX: 64m
-    DRUID_XMS: 64m
-    druid_indexer_runner_javaOptsArray: '["-server", "-Xms256m", "-Xmx256m", "-XX:MaxDirectMemorySize=300m", "-Duser.timezone=UTC", "-Dfile.encoding=UTF-8", "-XX:+ExitOnOutOfMemoryError", "-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager"]'
-    druid_indexer_fork_property_druid_processing_buffer_sizeBytes: '25000000'
-
-  autoscaling:
-    enabled: false
-    minReplicas: 2
-    maxReplicas: 5
-    metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 60
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: 60
-
-  ingress:
-    enabled: false
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    path: /
-    hosts:
-      - chart-example.local
-    tls: []
-    #  - secretName: chart-example-tls
-    #    hosts:
-    #      - chart-example.local
-
-  persistence:
-    enabled: true
-    accessMode: ReadWriteOnce
-    size: "4Gi"
-    # storageClass: "ssd"
-
-  antiAffinity: "soft"
-
-  nodeAffinity: {}
-
-  nodeSelector: {}
-
-  securityContext:
-    fsGroup: 1000
-
-  tolerations: []
-
-  resources: {}
-    # limits:
-    #   cpu: 500m
-    #   memory: 1Gi
-    # requests:
-    #   cpu: 250m
-    #   memory: 256Mi
-
-  ## (dict) If specified, apply these annotations to each master Pod
-  podAnnotations: {}
-
-  podDisruptionBudget:
-    enabled: false
-    # minAvailable: 2
-    maxUnavailable: 1
-
-  updateStrategy:
-    type: RollingUpdate
-
-router:
-  ## If false, router will not be installed
-  ##
-  enabled: true
-  name: router
-  replicaCount: 1
-  port: 8888
-  serviceType: ClusterIP
-
-  config:
-    DRUID_XMX: 128m
-    DRUID_XMS: 128m
-    DRUID_MAXDIRECTMEMORYSIZE: 128m
-
-  ingress:
-    enabled: false
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    path: /
-    hosts:
-      - chart-example.local
-    tls: []
-    #  - secretName: chart-example-tls
-    #    hosts:
-    #      - chart-example.local
-
-  resources: {}
-    # limits:
-    #   cpu: 250m
-    #   memory: 256Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
-
-  podAnnotations: {}
-
-# ------------------------------------------------------------------------------
-# Zookeeper:
-# ------------------------------------------------------------------------------
-
-# zkHosts: druid-zookeeper-headless:2181
+env:
+  druid_xmx: 1g
+  druid_xms: 1g
+  druid_maxnewsize: 250m
+  druid_newsize: 250m
+  s3_storage_bucket: your-deep-storage-bucket-goes-here
+  s3_indexing_bucket: your-index-log-bucket-goes-here
+  s3_access_key: XXXXXXXXXXXXXXXXXXXX
+  mysql_host: mysql-druid
+  mysql_port: 3306
 
 zookeeper:
-  enabled: true
-  ## Environmental variables to set in Zookeeper
-  ##
-  env:
-    ## The JVM heap size to allocate to Zookeeper
-    ZK_HEAP_SIZE: "512M"
-  ## Configure Zookeeper headless
-  headless:
-    publishNotReadyAddresses: true
-
-
-# ------------------------------------------------------------------------------
-# MySQL:
-# ------------------------------------------------------------------------------
-mysql:
-  enabled: false
-  mysqlRootPassword: druidroot
-  mysqlUser: druid
-  mysqlPassword: druid
-  mysqlDatabase: druid
-  configurationFiles:
-    mysql_collate.cnf: |-
-      [mysqld]
-      character-set-server=utf8
-      collation-server=utf8_unicode_ci
-
-# ------------------------------------------------------------------------------
-# postgres:
-# ------------------------------------------------------------------------------
+  Replicas: 3
+  Name: zk
 postgresql:
-  enabled: true
-  postgresqlUsername: druid
-  postgresqlPassword: druid
-  postgresqlDatabase: druid
-  service:
-    port: 5432
+  postgresUser: druid
+  postgresDatabase: druid
+  postgresPassword: secret
 
-# Secrets
+nodes:
+  coordinator:
+    name: "coordinator"
+    replicaCount: 1
+    image:
+      repository: druid
+      tag: v1.0
+      pullPolicy: IfNotPresent
+    service:
+      name: druid-coordinator-service
+      type: NodePort
+      ports:
+        - name: coordinator-port
+          port: 8081
+          nodePort: 30081
+    configVolumeClaim: config-volume
+    configMountPath: /opt/druid/conf/druid/
+  overlord:
+    name: "overlord"
+    replicaCount: 1
+    image:
+      repository: druid
+      tag: v1.0
+      pullPolicy: IfNotPresent
+    service:
+      name: druid-overlord-service
+      type: NodePort
+      ports:
+        - name: overlord-port
+          port: 8090
+          nodePort: 30090
+    configVolumeClaim: config-volume
+    configMountPath: /opt/druid/conf/druid/
+  historical:
+    name: "historical"
+    replicaCount: 1
+    image:
+      repository: druid
+      tag: v1.0
+      pullPolicy: IfNotPresent
+    service:
+      name: druid-historical-service
+      type: ClusterIP
+      ports:
+        - name: historical-port
+          port: 8083
+          nodePort: 30083
+    dataVolumeClaim : data
+    dataMountPath: /var/druid/segments
+    segmentcacheVolumeClaim: segment-cache
+    segmentcacheMountPath: /var/druid/segment-cache
+    configVolumeClaim: config-volume
+    configMountPath: /opt/druid/conf/druid/
+  broker:
+    name: "broker"
+    replicaCount: 1
+    image:
+      repository: druid
+      tag: v1.0
+      pullPolicy: IfNotPresent
+    service:
+      name: druid-broker-service
+      type: NodePort
+      ports:
+        - name: broker-port
+          port: 8082
+          nodePort: 30082
+    configVolumeClaim: config-volume
+    configMountPath: /opt/druid/conf/druid/
+  # tranquility:
+    # name: "tranquility"
+    # replicaCount: 1
+    # image:
+      # repository: jkaralus/druid8s-tranquility
+      # tag: latest
+      # pullPolicy: IfNotPresent
+    # service:
+      # name: druid-tranquility-service
+      # type: NodePort
+      # ports:
+        # - name: tranquility-port
+          # port: 8200
+  # pivot:
+    # name: "pivot"
+    # replicaCount: 1
+    # image:
+      # repository: jkaralus/druid8s-pivot
+      # tag: latest
+      # pullPolicy: IfNotPresent
+    # service:
+      # name: druid-pivot-service
+      # type: NodePort
+      # ports:
+        # - name: pivot-port
+          # port: 9095
+  middlemanager:
+    name: "middlemanager"
+    replicaCount: 1
+    image:
+      repository: druid
+      tag: v1.0
+      pullPolicy: IfNotPresent
+    service:
+      name: druid-middlemanager-service
+      type: NodePort
+      ports:
+        - name: middlemanager-port
+          port: 8091
+          nodePort: 30091
+        - name: peon-0
+          port: 8100
+        - name: peon-1
+          port: 8101
+        - name: peon-2
+          port: 8102
+        - name: peon-3
+          port: 8103
+    configVolumeClaim: config-volume
+    configMountPath: /opt/druid/conf/druid/      
+
+image:
+  historical:
+    repository: druid
+    tag: v1.0
+    pullPolicy: IfNotPresent
+  quickstart:
+    repository: druid
+    tag: v1.0
+    pullPolicy: IfNotPresent
+service:
+  historical:
+    name: historical
+    type: ClusterIP
+    externalPort: 8083
+    internalPort: 8083
+  quickstart:
+    name: quickstart
+    type: NodePort
+    port: 9095
+  #TODO remove ulgy hotfix
+  type: NodePort
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+initializationFiles:
+ druid-db.sql: |-
+   CREATE DATABASE IF NOT EXISTS druid DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; 
+   CREATE USER 'druid' IDENTIFIED BY 'keepasecret'; 
+   GRANT ALL ON druid.* TO 'druid';
