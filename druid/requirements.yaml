@@ -1,7 +1,7 @@
 dependencies:
-- name: my-flask
-  version: 2.1.6
-  repository: https://docker.jointree.co.kr/chartrepo/jointree
+- name: zookeeper
+  version: 2.1.4
+  repository: https://charts.helm.sh/incubator
   condition: zookeeper.enabled
 - name: mysql
   version: 1.6.4
