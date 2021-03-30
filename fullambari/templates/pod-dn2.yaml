@@ -4,6 +4,7 @@ metadata:
   name: base-join-dn2
   labels:
     type: ambari
+    app: dn2
 spec:
   hostname: dn2
   subdomain: jts
