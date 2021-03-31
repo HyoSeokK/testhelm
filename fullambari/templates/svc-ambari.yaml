@@ -10,4 +10,51 @@ spec:
     - None
   type: ClusterIP
 
-
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dn1
+  labels:
+    app: dn1
+spec:
+  ports:
+    - name: service
+      protocol: TCP
+      port: 6667
+      targetPort: 6667
+  selector:
+    app: dn1
+  type: ClusterIP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dn2
+  labels:
+    app: dn2
+spec:
+  ports:
+    - name: service
+      protocol: TCP
+      port: 6667
+      targetPort: 6667
+  selector:
+    app: dn2
+  type: ClusterIP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dn3
+  labels:
+    app: dn3
+spec:
+  ports:
+    - name: service
+      protocol: TCP
+      port: 6667
+      targetPort: 6667
+  selector:
+    app: dn3
+  type: ClusterIP

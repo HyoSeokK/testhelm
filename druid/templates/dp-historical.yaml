@@ -6,13 +6,14 @@ metadata:
     kompose.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.kompose.service: middlemanager
-  name: dp-middlemanager
+    io.kompose.service: historical
+  name: historical
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: middlemanager
+      io.kompose.service: historical
+      type: ambari
   strategy:
     type: Recreate
   template:
@@ -22,11 +23,12 @@ spec:
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
-        io.kompose.service: middlemanager
+        io.kompose.service: historical
+        type: ambari
     spec:
       containers:
         - args:
-            - middleManager
+            - historical
           env:
             - name: DRUID_LOG4J
               value: <?xml version="1.0" encoding="UTF-8" ?><Configuration status="WARN"><Appenders><Console name="Console" target="SYSTEM_OUT"><PatternLayout pattern="%d{ISO8601} %p [%t] %c - %m%n"/></Console></Appenders><Loggers><Root level="info"><AppenderRef ref="Console"/></Root><Logger name="org.apache.druid.jetty.RequestLog" additivity="false" level="DEBUG"><AppenderRef ref="Console"/></Logger></Loggers></Configuration>
@@ -72,33 +74,27 @@ spec:
             - name: druid_storage_type
               value: local
             - name: druid_zk_service_host
-              value: zookeeper
+              value: dn3.jts.default.svc.cluster.local:2181,dn1.jts.default.svc.cluster.local:2181,dn2.jts.default.svc.cluster.local:2181
           image: apache/druid:0.20.1
           securityContext:
            privileged: true
-          name: middlemanager
+          name: historical
           ports:
-            - containerPort: 8091
-            - containerPort: 8100
-            - containerPort: 8101
-            - containerPort: 8102
-            - containerPort: 8103
-            - containerPort: 8104
-            - containerPort: 8105
+            - containerPort: 8083
           resources: {}
           volumeMounts:
             - mountPath: /opt/data
-              name: middlemanager-claim0
+              name: historical-claim0
             - mountPath: /opt/druid/var
-              name: docker-middle-var
+              name: docker-historical-var
       restartPolicy: Always
       volumes:
-        - name: middlemanager-claim0
+        - name: historical-claim0
           persistentVolumeClaim:
-            claimName: middlemanager-claim0
-        - name: docker-middle-var
+            claimName: historical-claim0
+        - name: docker-historical-var
           persistentVolumeClaim:
-            claimName: docker-middle-var
+            claimName: docker-historical-var
       nodeSelector:
         kubernetes.io/hostname: analysis1
 status: {}
