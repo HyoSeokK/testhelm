@@ -9,6 +9,9 @@ spec:
     storage: 200Mi
   accessModes:
     - ReadWriteOnce
+  claimRef:
+   namespacce: default
+   name: 
   persistentVolumeReclaimPolicy: Retain
   hostPath:
     path: /druidpv/middle_var

@@ -9,6 +9,9 @@ spec:
     storage: 200Mi
   accessModes:
     - ReadWriteOnce
+  claimRef:
+   namespacce: default
+   name: docker-historical-var
   persistentVolumeReclaimPolicy: Retain
   hostPath:
     path: /druidpv/historical_var
