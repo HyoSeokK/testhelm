@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zeus-web
+  namespace: zeus-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zeus-web
+  template:
+    metadata:
+      labels:
+        app: zeus-web
+    spec:
+      hostname: zeusfront
+      subdomain: zeus
+      containers:
+      - name: zeusfront
+        image: docker.jointree.co.kr/jointree/zeusfront:latest
+        command: ["/bin/bash", "-c"]
+        args: ["cd /tmp/zeus ; ls ;npm install --loglevel verbose; ng config -g cli.warnings.versionMismatch false ;ng build zeus; nginx ; sleep infinity"]
+        ports:
+        - containerPort: 4200
+        volumeMounts:
+        - name: zeus-git-front
+          mountPath: /tmp
+        imagePullPolicy: Never
+      - name: zeusback
+        image: golang:latest
+        command: ["/bin/bash", "-c", "cd /go/Zeus_Server/Zeus_Portal_Server && make dev && sleep infinity"]
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: zeus-git-back
+          mountPath: /go/Zeus_Server
+      nodeSelector:
+        kubernetes.io/hostname: analysis1
+      imagePullSecrets:
+      - name: harbor-admin-login
+      volumes:
+      - name: zeus-git-front
+        gitRepo:
+         repository: https://github.com/eunsukcho/zeus.git
+         revision: publish
+      - name: zeus-git-back
+        gitRepo:
+         repository: https://github.com/eunsukcho/Zeus_Portal_Server.git
+         revision: main

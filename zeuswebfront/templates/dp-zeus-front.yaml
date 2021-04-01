@@ -17,13 +17,13 @@ spec:
       subdomain: zeus
       containers:
       - name: zeusfront
-        image: docker.jointree.co.kr/jointree/zesusfront:latest
+        image: docker.jointree.co.kr/jointree/zeusfront:latest
         command: ["/bin/bash", "-c"]
-        args: ["cd /tmp/zeus ; npm install; ls"]
+        args: ["cd /tmp/zeus ; ls ;npm install --loglevel verbose; ng config -g cli.warnings.versionMismatch false ;ng build zeus; nginx ; sleep infinity"]
         ports:
-        - containerPort: 4200
+        - containerPort: 4201
         volumeMounts:
-        - name: zeus-git
+        - name: zeus-git-front
           mountPath: /tmp
         imagePullPolicy: Never
       nodeSelector:
@@ -31,7 +31,7 @@ spec:
       imagePullSecrets:
       - name: harbor-admin-login
       volumes:
-      - name: zeus-git
+      - name: zeus-git-front
         gitRepo:
          repository: https://github.com/eunsukcho/zeus.git
          revision: publish
