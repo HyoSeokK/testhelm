@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: zeus
+  labels:
+    app: svc-zeus
+spec:
+  selector:
+    type: zeus
+  clusterIP: None
+  clusterIPs:
+    - None
+  type: ClusterIP
+

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zeus-web-front
+  namespace: zeus-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zeus-web
+  template:
+    metadata:
+      labels:
+        app: zeus-web
+    spec:
+      hostname: zeusfront
+      subdomain: zeus
+      containers:
+      - name: zeusfront
+        image: docker.jointree.co.kr/jointree/zesusfront:latest
+        command: ["/bin/bash", "-c", "npm install /tmp/zeus && cd /tmp/zeus && ng build zeus && sleep infinity"]
+        ports:
+        - containerPort: 4200
+        volumeMounts:
+        - name: zeus-git
+          mountPath: /tmp
+        imagePullPolicy: Never
+      nodeSelector:
+        kubernetes.io/hostname: analysis1
+      imagePullSecrets:
+      - name: harbor-admin-login
+      volumes:
+      - name: zeus-git
+        gitRepo:
+         repository: https://github.com/eunsukcho/zeus.git
+         revision: publish

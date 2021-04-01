@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-statefulset
+  namespace: web
+  labels:
+    app: zeus-postgres
+spec:
+  serviceName: "postgres"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zeus-postgres
+  template:
+    metadata:
+      labels:
+        app: zeus-postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:latest
+        envFrom:
+        - configMapRef:
+            name: zeus-postgres-configuration
+        ports:
+        - containerPort: 5432
+          name: postgresdb
+        volumeMounts:
+        - name: pv-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: pv-data
+        persistentVolumeClaim:
+          claimName: zeus-postgres-pv-claim
+      nodeSelector:
+       kubernetes.io/hostname: analysis1
