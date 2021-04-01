@@ -10,7 +10,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   claimRef:
-   namespacce: default
+   namespace: default
    name: docker-broker-var
   persistentVolumeReclaimPolicy: Retain
   hostPath:
