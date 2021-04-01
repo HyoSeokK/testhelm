@@ -18,7 +18,8 @@ spec:
       containers:
       - name: zeusfront
         image: docker.jointree.co.kr/jointree/zesusfront:latest
-        command: ["/bin/bash", "-c", "npm install /tmp/zeus && cd /tmp/zeus && ng build zeus && sleep infinity"]
+        command: ["/bin/bash", "-c"]
+        args: ["cd /tmp/zeus ; npm install; ls"]
         ports:
         - containerPort: 4200
         volumeMounts:
