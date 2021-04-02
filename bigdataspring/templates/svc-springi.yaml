@@ -9,8 +9,8 @@ spec:
   ports:
     - name: spring
       protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 8080
+      targetPort: 8080
       nodePort: 31004
   selector:
     app: spring

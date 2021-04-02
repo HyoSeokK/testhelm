@@ -11,7 +11,7 @@ spec:
     - ReadWriteOnce
   claimRef:
    namespace: default
-   name: 
+   name: docker-middle-var
   persistentVolumeReclaimPolicy: Retain
   hostPath:
     path: /druidpv/middle_var
