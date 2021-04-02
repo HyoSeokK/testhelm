@@ -13,6 +13,7 @@ spec:
     - name: "8888"
       port: 8888
       targetPort: 8888
+  type: NodePort
   selector:
     io.kompose.service: router
 status:
