@@ -42,5 +42,5 @@ spec:
       nodeSelector:
        kubernetes.io/hostname: "gather1"
       imagePullSecrets:
-       - name: harbor-admin-login
+       - name: docker-registry-login
        
