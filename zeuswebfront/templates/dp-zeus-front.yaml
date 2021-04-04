@@ -21,7 +21,7 @@ spec:
         command: ["/bin/bash", "-c"]
         args: ["cd /tmp/zeus ; ls ;npm install --loglevel verbose; ng config -g cli.warnings.versionMismatch false ;ng build zeus; nginx ; sleep infinity"]
         ports:
-        - containerPort: 4201
+        - containerPort: 4203
         volumeMounts:
         - name: zeus-git-front
           mountPath: /tmp
