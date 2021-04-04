@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: postgres-statefulset
-  namespace: web
+  namespace: zeus-web
   labels:
     app: zeus-postgres
 spec:
