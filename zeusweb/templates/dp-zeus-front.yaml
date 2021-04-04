@@ -15,6 +15,7 @@ spec:
     spec:
       hostname: zeusfront
       subdomain: zeus
+      setHostnameAsFQDN: true
       containers:
       - name: zeusfront
         image: docker.jointree.co.kr/jointree/zeusfront:latest
