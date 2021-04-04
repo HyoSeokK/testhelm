@@ -1,0 +1,13 @@
+service:
+ name: gitlabsvc
+ type: NodePort
+ ports:
+  web: 80
+  ssh: 22
+  ssl: 443
+pv:
+ name: gitlabhelm
+ log: /pv/gitlab/logs 
+ config: /pv/gitlab/config
+ data: /pv/gitlab/data
+

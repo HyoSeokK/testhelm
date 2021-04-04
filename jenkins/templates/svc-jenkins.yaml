@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: joinjenkins-svc
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 31101
+  selector:
+    app: joinjenkins
+  type: NodePort
