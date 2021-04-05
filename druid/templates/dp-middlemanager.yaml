@@ -63,6 +63,8 @@ spec:
             - name: druid_metadata_storage_connector_user
               value: druid
             - name: druid_metadata_storage_host
+            - name: druid_indexer_runner_startPort
+              value: "40000"
             - name: druid_metadata_storage_type
               value: postgresql
             - name: druid_processing_numMergeBuffers
