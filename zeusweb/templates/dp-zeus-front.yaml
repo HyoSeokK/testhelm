@@ -13,8 +13,8 @@ spec:
       labels:
         app: zeus-web
     spec:
-      hostname: zeusfront
       subdomain: zeus
+      hostname: zeusfront
       setHostnameAsFQDN: true
       containers:
       - name: zeusfront
