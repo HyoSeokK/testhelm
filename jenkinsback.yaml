@@ -26,7 +26,6 @@ spec:
           protocol: TCP
         - containerPort: 50000
           protocol: TCP
-      resources: {}
       volumeMounts:
         - name: docker-sock
           mountPath: /var/run

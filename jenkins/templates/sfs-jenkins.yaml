@@ -6,7 +6,7 @@ metadata:
   labels:
     app: sfs-joinjenkins
 spec:
-  serviceName: "nifi"
+  serviceName: "jenkins"
   replicas: 1
   selector:
     matchLabels:
