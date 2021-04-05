@@ -1,44 +1,56 @@
-kind: Pod
-apiVersion: v1
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
-  name: joinjenkins
+  name: sfs-jenkins
+  namespace: default
   labels:
-    app: joinjenkins
+    app: sfs-joinjenkins
 spec:
-  volumes:
-    - name: docker-sock
-      hostPath:
-        path: /run
-        type: Directory
-    - name: docker-compose
-      hostPath:
-        path: /usr/local/bin/docker-compose
-        type: FileOrCreate
-    - name: docker-bin
-      hostPath:
-        path: /usr/bin
-        type: Directory
-  containers:
-    - name: jenkins
-      image: 'docker.jointree.co.kr/jointree/joinjenkins:v1.0'
-      ports:
-        - containerPort: 8080
-          protocol: TCP
-        - containerPort: 50000
-          protocol: TCP
-      resources: {}
-      volumeMounts:
+  serviceName: "nifi"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: joinjenkins
+  template:
+    metadata:
+      labels:
+        app: joinjenkins
+    spec:
+      volumes:
         - name: docker-sock
-          mountPath: /var/run
+          hostPath:
+            path: /run
+            type: Directory
         - name: docker-compose
-          mountPath: /usr/local/bin/docker-compose
+          hostPath:
+            path: /usr/local/bin/docker-compose
+            type: FileOrCreate
         - name: docker-bin
-          mountPath: /usr/bin
-      imagePullPolicy: IfNotPresent
-      securityContext:
-        runAsUser: 0
-  nodeSelector:
-   kubernetes.io/hostname: gather1
-  restartPolicy: Always
-  imagePullSecrets:
-   - name: docker-registry-login
+          hostPath:
+            path: /usr/bin
+            type: Directory
+      containers:
+        - name: jenkins
+          image: 'docker.jointree.co.kr/jointree/joinjenkins:v1.0'
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 50000
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - name: docker-sock
+              mountPath: /var/run
+            - name: docker-compose
+              mountPath: /usr/local/bin/docker-compose
+            - name: docker-bin
+              mountPath: /usr/bin
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 0
+      nodeSelector:
+      kubernetes.io/hostname: gather1
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: docker-registry-login
+        
