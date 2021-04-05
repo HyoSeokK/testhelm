@@ -8,10 +8,12 @@ spec:
   selector:
     matchLabels:
       app: zeus-web
+      type: zeus
   template:
     metadata:
       labels:
         app: zeus-web
+        type: zeus
     spec:
       hostname: zeusfront
       subdomain: zeus
