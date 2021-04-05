@@ -47,7 +47,7 @@ spec:
             - name: druid_emitter_logging_logLevel
               value: debug
             - name: druid_extensions_loadList
-              value: '["druid-histogram", "druid-datasketches", "druid-lookups-cached-global", "postgresql-metadata-storage","druid-kafka-indexing-service","druid-kinesis-indexing-service","druid-s3-extensions","druid-azure-extensions","druid-google-extensions","druid-hdfs-storage"]'
+              value: '["druid-histogram", "druid-datasketches", "druid-lookups-cached-global", "postgresql-metadata-storage","druid-kafka-indexing-service","druid-kinesis-indexing-service","druid-azure-extensions","druid-google-extensions","druid-hdfs-storage"]'
             - name: druid_indexer_fork_property_druid_processing_buffer_sizeBytes
               value: "268435456"
             - name: druid_indexer_logs_directory
