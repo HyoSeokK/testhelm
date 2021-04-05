@@ -49,7 +49,7 @@ spec:
           securityContext:
             runAsUser: 0
       nodeSelector:
-      kubernetes.io/hostname: gather1
+       kubernetes.io/hostname: gather1
       restartPolicy: Always
       imagePullSecrets:
       - name: docker-registry-login
