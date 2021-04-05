@@ -75,8 +75,6 @@ spec:
               value: local
             - name: druid_zk_service_host
               value: zookeeper
-            - name: druid_server_hiddenProperties
-              value: " "
           image: apache/druid:0.20.1
           securityContext:
            privileged: true
