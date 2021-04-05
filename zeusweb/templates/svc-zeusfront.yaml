@@ -13,7 +13,7 @@ spec:
     - port: 4200
       targetPort: 4200
       nodePort: 32101 
-         name : zeus-front
+      name : zeus-front
     - port: 3000
       targetPort: 3000
       nodePort : 32104 

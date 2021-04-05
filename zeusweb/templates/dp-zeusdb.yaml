@@ -13,7 +13,7 @@ spec:
       app: zeus-postgres
   template:
     metadata:
-      matchLabels:
+      labels:
         app: zeus-postgres
     spec:
       containers:
