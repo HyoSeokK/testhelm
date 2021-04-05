@@ -10,11 +10,11 @@ spec:
     app: zeus-web
   type: NodePort
   ports:
-    - port: 4200
-      targetPort: 4200
-      nodePort: 32101 
-      name : zeus-front
-    - port: 3000
-      targetPort: 3000
-      nodePort : 32104 
-      name : zeus-back
+  - port: 4200
+    targetPort: 4200
+    nodePort: 32101 
+    name : zeus-front
+  - port: 3000
+    targetPort: 3000
+    nodePort : 32104 
+    name : zeus-back
