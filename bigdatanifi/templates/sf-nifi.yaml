@@ -13,6 +13,7 @@ spec:
       app: nifi
       type: ambari
   template:
+    serviceName: "nifi"
     metadata:
       labels:
         app: nifi
