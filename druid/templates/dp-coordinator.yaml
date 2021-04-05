@@ -39,7 +39,7 @@ spec:
             - name: DRUID_NEWSIZE
               value: 250m
             - name: DRUID_XMS
-              value: 1g
+              value: 4g
             - name: DRUID_XMX
               value: 4g
             - name: druid_coordinator_balancer_strategy
@@ -55,7 +55,7 @@ spec:
             - name: druid_indexer_logs_type
               value: file
             - name: druid_indexer_runner_javaOptsArray
-              value: '["-server", "-Xmx1g", "-Xms1g", "-XX:MaxDirectMemorySize=3g", "-Duser.timezone=UTC", "-Dfile.encoding=UTF-8", "-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager"]'
+              value: '["-server", "-Xmx4g", "-Xms4g", "-XX:MaxDirectMemorySize=6g", "-Duser.timezone=UTC", "-Dfile.encoding=UTF-8", "-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager"]'
             - name: druid_metadata_storage_connector_connectURI
               value: jdbc:postgresql://postgres:5432/druid
             - name: druid_metadata_storage_connector_password
