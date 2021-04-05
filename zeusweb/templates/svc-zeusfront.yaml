@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: zeus-service
+  name: zeus-service-web
   namespace: zeus-web
   labels:
     app: zeus-web
