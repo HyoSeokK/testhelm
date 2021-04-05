@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: joinnifi
+  namespace: default
+  labels:
+    app: nifi
+    type: ambari
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nifi
+      type: ambari
+  template:
+    metadata:
+      labels:
+        app: nifi
+        type: ambari
+    spec:
+     containers:
+     - name: nifi
+       image: 'docker.jointree.co.kr/jointree/joinnifi:v1.2'
+       command:
+         - /bin/bash
+         - '-c'
+         - >-
+           source /root/.bash_profile && /root/nifi-1.12.0/bin/nifi.sh start &&
+           sleep infinity
+       ports:
+       - containerPort: 8080
+         protocol: TCP
+       imagePullPolicy: IfNotPresent
+       securityContext:
+        privileged: true
+     restartPolicy: Always
+     imagePullSecrets:
+      - name: docker-registry-login
+     nodeSelector:
+      kubernetes.io/hostname: "gather1"
+        
