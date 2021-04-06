@@ -25,16 +25,8 @@ spec:
         args: ["nginx ; sleep infinity"]
         ports:
         - containerPort: 4203
-        volumeMounts:
-        - name: zeus-git-front
-          mountPath: /tmp
         imagePullPolicy: Never
       nodeSelector:
         kubernetes.io/hostname: analysis1
       imagePullSecrets:
       - name: harbor-admin-login
-      volumes:
-      - name: zeus-git-front
-        gitRepo:
-         repository: https://github.com/eunsukcho/zeus.git
-         revision: publish
