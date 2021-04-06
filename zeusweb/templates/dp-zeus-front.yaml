@@ -20,7 +20,7 @@ spec:
       setHostnameAsFQDN: true
       containers:
       - name: zeusfront
-        image: docker.jointree.co.kr/jointree/zeusfront:latest
+        image: docker.jointree.co.kr/jointree/testfront
         command: ["/bin/bash", "-c"]
         args: ["cd /tmp/zeus ; ls ;npm install --loglevel verbose; ng config -g cli.warnings.versionMismatch false ;ng build zeus; nginx ; sleep infinity"]
         ports:
