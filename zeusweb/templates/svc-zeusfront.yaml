@@ -8,7 +8,7 @@ metadata:
 spec:
   selector:
     app: zeus-web
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 4203
     targetPort: 4203
