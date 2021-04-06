@@ -22,7 +22,7 @@ spec:
       - name: zeusfront
         image: docker.jointree.co.kr/jointree/testfront
         command: ["/bin/bash", "-c"]
-        args: ["cd /tmp/zeus ; ls ;npm install --loglevel verbose; ng config -g cli.warnings.versionMismatch false ;ng build zeus; nginx ; sleep infinity"]
+        args: ["nginx ; sleep infinity"]
         ports:
         - containerPort: 4203
         volumeMounts:
