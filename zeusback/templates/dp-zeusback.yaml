@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zeus-web-back
+  namespace: zeus-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zeus-web
+      type: zeus
+  template:
+    metadata:
+      labels:
+        app: zeus-web
+        type: zeus
+    spec:
+      subdomain: zeus
+      hostname: zeusback
+      setHostnameAsFQDN: true
+      containers:
+      - name: zeusback
+        image: docker.jointree.co.kr/jointree/zeusback:v1
+        command: ["/bin/bash", "-c", "cd /go/Zeus_Server/Zeus_Portal_Server && make dev && sleep infinity"]
+        ports:
+        - containerPort: 3000
+      nodeSelector:
+        kubernetes.io/hostname: analysis1
+      imagePullSecrets:
+      - name: docker-registry-login
