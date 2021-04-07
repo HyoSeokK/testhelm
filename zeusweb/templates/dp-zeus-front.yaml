@@ -25,7 +25,7 @@ spec:
         args: ["nginx ; sleep infinity"]
         ports:
         - containerPort: 4203
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
       nodeSelector:
         kubernetes.io/hostname: analysis1
       imagePullSecrets:
