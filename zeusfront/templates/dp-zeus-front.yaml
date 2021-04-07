@@ -20,7 +20,7 @@ spec:
       setHostnameAsFQDN: true
       containers:
       - name: zeusfront
-        image: docker.jointree.co.kr/jointree/zeusfront:v27
+        image: docker.jointree.co.kr/jointree/zeusfront:v28
         command: ["/bin/bash", "-c"]
         args: ["nginx ; sleep infinity"]
         ports:
