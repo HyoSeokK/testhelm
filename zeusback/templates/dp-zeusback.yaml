@@ -20,7 +20,7 @@ spec:
       setHostnameAsFQDN: true
       containers:
       - name: zeusback
-        image: docker.jointree.co.kr/jointree/zeusback:v8
+        image: docker.jointree.co.kr/jointree/zeusback:v9
         command: ["/bin/bash", "-c", "cd /go/Zeus_Server/Zeus_Portal_Server && make dev && sleep infinity"]
         ports:
         - containerPort: 3000
