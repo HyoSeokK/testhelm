@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zeus-web-front
+  namespace: zeus-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zeus-web
+      type: zeus
+  template:
+    metadata:
+      labels:
+        app: zeus-web
+        type: zeus
+    spec:
+      hostname: zeusfront
+      subdomain: zeus
+      setHostnameAsFQDN: true
+      containers:
+      - name: zeusfront
+        image: docker.jointree.co.kr/jointree/zeusfront:latest
+        command: ["/bin/bash", "-c"]
+        args: ["nginx ; sleep infinity"]
+        ports:
+        - containerPort: 4203
+        imagePullPolicy: Always
+      nodeSelector:
+        kubernetes.io/hostname: analysis1
+      imagePullSecrets:
+      - name: docker-registry-login
