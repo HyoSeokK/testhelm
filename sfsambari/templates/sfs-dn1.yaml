@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sfs-join-dn1
+  labels:
+    type: ambari
+    app: dn1
+spec:
+  serviceName: "datanode1"
+  replicas: 1
+  selector:
+    matchLabels:
+      type: ambari
+      app: dn1
+  templates:
+    metadata:
+      labels:
+        type: ambari
+        app: dn1
+    spec:
+      hostname: dn1
+      subdomain: jts
+      setHostnameAsFQDN: true
+      containers:
+      - image: docker.jointree.co.kr/jointree/joindatanode1full:v7.0
+        name: dn1
+        command: ["/bin/bash","-c","ambari-agent start && sleep infinity"]
+        env:
+        - name: JAVA_HOME
+          value: "/usr/lib/jvm/java-1.8.0-openjdk/"
+        securityContext:
+        privileged: true
+        ports:
+        - name: sshd
+          containerPort: 22
+        - name: ambariport
+          containerPort: 8080
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: docker-registry-login
+      nodeSelector:
+       kubernetes.io/hostname: "datanode1"

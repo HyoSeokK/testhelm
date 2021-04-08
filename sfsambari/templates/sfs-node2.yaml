@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: base-join-nn2
+  labels:
+    type: ambari
+spec:
+  hostname: nn2
+  subdomain: jts
+  setHostnameAsFQDN: true
+  containers:
+  - image: docker.jointree.co.kr/jointree/joinnamenode2full:v7.0
+    command: ["/bin/bash","-c","ambari-agent start && sleep infinity"]
+    name: nn2
+    env:
+    - name: JAVA_HOME
+      value: "/usr/lib/jvm/java-1.8.0-openjdk/"
+    volumeMounts:
+      - name: csv-conn
+        mountPath: /csv
+    securityContext:
+     privileged: true
+    ports:
+    - name: sshd
+      containerPort: 22
+    - name: ambariport
+      containerPort: 8080
+  restartPolicy: Always
+  imagePullSecrets:
+   - name: docker-registry-login
+  nodeSelector:
+   kubernetes.io/hostname: "namenode2"
+  volumes:
+    - name: csv-conn
+      persistentVolumeClaim:
+        claimName: pvc-csv-claim
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sfs-join-nn2
+  labels:
+    type: ambari
+    app: nn2
+spec:
+  serviceName: "namenode2"
+  replicas: 1
+  selector:
+    matchLabels:
+      type: ambari
+      app: nn2
+  templates:
+    metadata:
+      labels:
+       type: ambari
+       app: nn2
+    spec:
+      hostname: nn2
+      subdomain: jts
+      setHostnameAsFQDN: true
+      containers:
+      - image: docker.jointree.co.kr/jointree/joinnamenode2full:v7.0
+        command: ["/bin/bash","-c","ambari-agent start && sleep infinity"]
+        name: nn2
+        env:
+        - name: JAVA_HOME
+          value: "/usr/lib/jvm/java-1.8.0-openjdk/"
+        volumeMounts:
+          - name: csv-conn
+            mountPath: /csv
+        securityContext:
+        privileged: true
+        ports:
+        - name: sshd
+          containerPort: 22
+        - name: ambariport
+          containerPort: 8080
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: docker-registry-login
+      nodeSelector:
+      kubernetes.io/hostname: "namenode2"
+      volumes:
+        - name: csv-conn
+          persistentVolumeClaim:
+            claimName: pvc-csv-claim

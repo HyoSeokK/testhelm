@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sfs-join-nn2
+  labels:
+    type: ambari
+    app: server
+spec:
+  serviceName: "namenode2"
+  replicas: 1
+  selector:
+    matchLabels:
+      type: ambari
+      app: server
+  templates:
+    metadata:
+      labels:
+       type: ambari
+       app: nn2
+    spec:
+      hostname: nn1
+      subdomain: jts
+      setHostnameAsFQDN: true
+      containers:
+      - image: docker.jointree.co.kr/jointree/joinnamenode1full:v7.0
+        name: ambariserver
+        env:
+        - name: JAVA_HOME
+          value: "/usr/lib/jvm/java-1.8.0-openjdk"
+        volumeMounts:
+          - name: csv-conn
+            mountPath: /csv
+        securityContext:
+        privileged: true
+        ports:
+        - name: sshd
+          containerPort: 22
+        - name: ambariport
+          containerPort: 8080
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: docker-registry-login
+      volumes:
+        - name: csv-conn
+          persistentVolumeClaim:
+            claimName: csv-claim
+      nodeSelector:
+      kubernetes.io/hostname: "namenode1"
