@@ -21,7 +21,7 @@ spec:
       containers:
       - name: zeusback
         image: docker.jointree.co.kr/jointree/zeusback:v15
-        command: ["/bin/bash", "-c", "cd /go/Zeus_Server/Zeus_Portal_Server && make dev && sleep infinity"]
+        command: ["/bin/bash", "-c", "cd /tmp && make dev && sleep infinity"]
         ports:
         - containerPort: 3000
       nodeSelector:
