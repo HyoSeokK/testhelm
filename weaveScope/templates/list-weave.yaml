@@ -324,7 +324,7 @@ items:
             - name: scope-agent
               args:
                 - '--probe.no-controls=true'
-                - ''--weave=false'
+                - '--weave=false'
                 - '--mode=probe'
                 - '--probe-only'
                 - '--probe.kubernetes.role=host'
