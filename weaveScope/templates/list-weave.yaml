@@ -323,6 +323,8 @@ items:
           containers:
             - name: scope-agent
               args:
+                - '--probe.no-controls=true'
+                - ''--weave=false'
                 - '--mode=probe'
                 - '--probe-only'
                 - '--probe.kubernetes.role=host'
